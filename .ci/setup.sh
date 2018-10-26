@@ -4,6 +4,9 @@ if [[ $OS_NAME == "macos" ]]; then
     if  [[ $COMPILER == "clang" ]]; then
         brew install libomp
         brew reinstall cmake  # CMake >=3.12 is needed to find OpenMP at macOS
+        if [[ $AZURE == "true" ]]; then
+            sudo xcode-select -s /Applications/Xcode_8.3.1.app/Contents/Developer
+        fi
     else
         if [[ $TRAVIS == "true" ]]; then
             sudo softwareupdate -i "Command Line Tools (macOS High Sierra version 10.13) for Xcode-9.3"  # fix "fatal error: _stdio.h: No such file or directory"
@@ -23,23 +26,21 @@ if [[ $OS_NAME == "macos" ]]; then
     fi
 else  # Linux
     if [[ $AZURE == "true" ]] && [[ $COMPILER == "clang" ]]; then
-        update-alternatives --install /usr/bin/clang++ clang++ /usr/bin/clang++-6.0 100
-        update-alternatives --install /usr/bin/clang clang /usr/bin/clang-6.0 100
         sudo apt-get update
+        sudo update-alternatives --install /usr/bin/clang++ clang++ /usr/bin/clang++-6.0 100
+        sudo update-alternatives --install /usr/bin/clang clang /usr/bin/clang-6.0 100
         sudo apt-get install libomp-dev
     fi
     if [[ $TASK == "mpi" ]]; then
-        if [[ $AZURE == "true" ]]; then
-            sudo apt-get update
-        fi
-        sudo apt-get install -y libopenmpi-dev openmpi-bin
+        sudo apt-get update
+        sudo apt-get install --no-install-recommends -y libopenmpi-dev openmpi-bin
     fi
     if [[ $TASK == "gpu" ]]; then
-        if [[ $AZURE == "true" ]]; then
-            sudo apt-get update
-            sudo apt-get install --no-install-recommends -y libboost-dev libboost-system-dev libboost-filesystem-dev
+        if [[ $TRAVIS == "true" ]]; then
+            sudo add-apt-repository ppa:kzemek/boost -y
         fi
-        sudo apt-get install --no-install-recommends -y ocl-icd-opencl-dev
+        sudo apt-get update
+        sudo apt-get install --no-install-recommends -y libboost1.58-dev libboost-system1.58-dev libboost-filesystem1.58-dev ocl-icd-opencl-dev
         cd $HOME_DIRECTORY
         wget -q https://github.com/Microsoft/LightGBM/releases/download/v2.0.12/AMD-APP-SDKInstaller-v3.0.130.136-GA-linux64.tar.bz2
         tar -xjf AMD-APP-SDK*.tar.bz2

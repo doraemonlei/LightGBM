@@ -16,7 +16,7 @@
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute.
-
+"""Sphinx configuration file."""
 import datetime
 import os
 import sys
@@ -95,7 +95,7 @@ language = None
 exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 
 # The name of the Pygments (syntax highlighting) style to use.
-pygments_style = 'sphinx'
+pygments_style = 'default'
 
 # If true, `todo` and `todoList` produce output, else they produce nothing.
 todo_include_todos = False
@@ -128,4 +128,11 @@ htmlhelp_basename = 'LightGBMdoc'
 
 
 def setup(app):
+    """Add new elements at Sphinx initialization time.
+
+    Parameters
+    ----------
+    app : object
+        The application object representing the Sphinx process.
+    """
     app.add_javascript("js/script.js")

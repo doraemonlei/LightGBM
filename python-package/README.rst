@@ -18,11 +18,15 @@ Install from `PyPI <https://pypi.org/project/lightgbm>`_ Using ``pip``
 
 For **Windows** users, `VC runtime <https://go.microsoft.com/fwlink/?LinkId=746572>`_ is needed if **Visual Studio** (2015 or 2017) is not installed.
 
-For **macOS** users, **gcc** with **OpenMP** support must be installed first. Refer to `Installation Guide <https://github.com/Microsoft/LightGBM/blob/master/docs/Installation-Guide.rst#gcc>`__ for installation of **gcc** with **OpenMP** support.
+For **Linux** users, **glibc** >= 2.14 is required.
 
-For **macOS** users, latest versions of LightGBM are built with **gcc-8** and cannot be launched on systems with **gcc-7** and earlier. You should update your **gcc** compiler if you don't want to build from sources or install LightGBM 2.1.1 which is the last version built with **gcc-7**.
+For **macOS** users:
 
-For **macOS** users, starting from version 2.2.1, the library file in distribution wheels will be built by the **Apple Clang** compiler. This means that you won't need to install the **gcc** compiler anymore. Instead of that you'll need to install the **OpenMP** library, which is required for running LightGBM on the system with the **Apple Clang** compiler. You can install the **OpenMP** library by the following command: ``brew install libomp``.
+- Starting from version 2.2.1, the library file in distribution wheels is built by the **Apple Clang** (Xcode_8.3.1) compiler. This means that you don't need to install the **gcc** compiler anymore. Instead of that you need to install the **OpenMP** library, which is required for running LightGBM on the system with the **Apple Clang** compiler. You can install the **OpenMP** library by the following command: ``brew install libomp``.
+
+- For version smaller than 2.2.1 and not smaller than 2.1.2, **gcc-8** with **OpenMP** support must be installed first. Refer to `Installation Guide <https://github.com/Microsoft/LightGBM/blob/master/docs/Installation-Guide.rst#gcc>`__ for installation of **gcc-8** with **OpenMP** support.
+
+- For version smaller than 2.1.2, **gcc-7** with **OpenMP** is required.
 
 Install `wheel <http://pythonwheels.com>`_ via ``pip install wheel`` first. After that download the wheel file and install from it:
 
@@ -147,8 +151,8 @@ Examples
 
 Refer to the walk through examples in `Python guide folder <https://github.com/Microsoft/LightGBM/tree/master/examples/python-guide>`_.
 
-Developments
-------------
+Development Guide
+-----------------
 
 The code style of Python-package follows `PEP 8 <https://www.python.org/dev/peps/pep-0008/>`_. If you would like to make a contribution and not familiar with PEP 8, please check the PEP 8 style guide first. Otherwise, the check won't pass. You should be careful about:
 
@@ -161,6 +165,8 @@ The code style of Python-package follows `PEP 8 <https://www.python.org/dev/peps
 - E302 expected 2 blank lines in front of and at the end of a function or a class
 
 E501 (line too long) and W503 (line break occurred before a binary operator) can be ignored.
+
+Documentation strings (docstrings) are written in the NumPy style.
 
 .. |License| image:: https://img.shields.io/badge/license-MIT-blue.svg
    :target: https://github.com/Microsoft/LightGBM/blob/master/LICENSE
